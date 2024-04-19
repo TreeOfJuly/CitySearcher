@@ -15,8 +15,8 @@ using namespace std;
 
 
 
-
-vector<string> citySearcher(string cityName, hashMapLinear& myMap, priority_queue<pair<int, string>>& maxPop, priority_queue<pair<int, string>>& maxDen, priority_queue<pair<int, string>>& maxSize, priority_queue<pair<int, string>>& maxAge){
+template<typename HashMapType>
+vector<string> citySearcher(string cityName, HashMapType& myMap, priority_queue<pair<int, string>>& maxPop, priority_queue<pair<int, string>>& maxDen, priority_queue<pair<int, string>>& maxSize, priority_queue<pair<int, string>>& maxAge){
    //RETRIEVAL
    vector<string> data;
    data = myMap.find(cityName);
@@ -106,8 +106,8 @@ void Rank(string option, priority_queue<pair<int, string>>& maxPop, priority_que
    }
 }
 
-
-void menuBasic(hashMapLinear& myMap, priority_queue<pair<int, string>> maxPop, priority_queue<pair<int, string>> maxDen, priority_queue<pair<int, string>> maxSize, priority_queue<pair<int, string>> maxAge){
+template<typename HashMapType>
+void menuBasic(HashMapType& myMap, priority_queue<pair<int, string>> maxPop, priority_queue<pair<int, string>> maxDen, priority_queue<pair<int, string>> maxSize, priority_queue<pair<int, string>> maxAge){
    cout << "Pick from the following options: " << endl;
    cout << "1 - Search another city" << endl;
    cout << "2 - Rank Cities" << endl;
@@ -146,8 +146,8 @@ void menuBasic(hashMapLinear& myMap, priority_queue<pair<int, string>> maxPop, p
 
 
 int main() {
-   //hashMapLinear LinearMap(10);
-   //parseCSV(LinearMap);
+   hashMapLinear LinearMap(10);
+   parseCSV(LinearMap);
    hashMapLinear LinearMap(10);
    parseCSV(LinearMap);
 
