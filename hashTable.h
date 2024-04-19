@@ -129,107 +129,115 @@ public:
 
 class hashMapChaining{
 private:
-   /*
-       The int parameter in bucket represents the hash key
-       The vector<string> contains information about the cities
-       The pair<int, vector<string>> is the element or node with their assigned hash key and the data the element carries
-       vector<pair<int, vector<string>>> is responsible for the separate chaining effect in each bucket
-       vector<vector<pair<int, vector<string>>>> creates the buckets, therefore creating the space for hash table
-       The above is for memory
-   */
-   vector<vector<vector<string>>> buckets;
-   // Keeps track of number of buckets
-   int bucket_count;
-   // Keeps track of number of elements
-   int elements;
-   // Keeps track of LF; elements/bucket_count
-   double maxLoadFactor;
 
+    vector<vector<vector<string>>> buckets;
+    // Keeps track of number of buckets
+    int bucket_count;
+    // Keeps track of number of elements
+    int elements;
+    // Keeps track of LF; elements/bucket_count
+    double maxLoadFactor;
 
 public:
-   hashMapChaining(int numOfBuckets)
-   {
-       for(int i = 0; i < numOfBuckets; i++)
-       {
-           buckets.push_back({});
-       }
-       bucket_count = numOfBuckets;
-       elements = 0;
-       maxLoadFactor = 0.75;
-   };
+    
+    hashMapChaining(int numOfBuckets)
+    {
+        buckets.resize(numOfBuckets);
+        bucket_count = numOfBuckets;
+        elements = 0;
+        maxLoadFactor = 0.75;
+    };
 
+    long hash(string cityName)
+    {
+        long hashValue = 0;
+        int i = 0;
+        for(auto& value : cityName)
+        {
+            if(value == ' ')
+            {
+                i++;
+                continue;
+            }
+            value = tolower(value);
+            //gets value from alphabet map corresponding to letter character s
+            hashValue += alphabet[(char) value] * (30^i);
+            i++;
+        }
+        return hashValue % bucket_count;
+    };
 
-   long hash(string cityName)
-   {
-       long hashValue = 0;
-       int i = 0;
-       for(auto& value : cityName)
-       {
-           if(value == ' ')
-           {
-               i++;
-               continue;
-           }
-           value = tolower(value);
-           //gets value from alphabet map corresponding to letter character s
-           hashValue += alphabet[(char) value] * (30^i);
-           i++;
-       }
-       return hashValue % bucket_count;
-   };
+    void insert(vector<string>& attributes)
+    {
+        insertHelper(attributes, buckets);
+    };
 
+    void insertHelper(vector<string>& cityAttributes, vector<vector<vector<string>>>& hashMap)
+    {
+        if(cityAttributes.empty())
+        {
+            return;
+        }
+        if(elements > maxLoadFactor*(double)bucket_count)
+        {
+            rehash();
+        }
+        int hashValue = hash(cityAttributes[0]);
 
-   void insert(vector<string>& attributes)
-   {
-       insertHelper(attributes, buckets);
-   };
+        hashMap[hashValue].push_back(cityAttributes);
+        elements++;
+        //printBuckets();
+    }
 
+    void rehash()
+    {
+        bucket_count *= 3;
+        vector<vector<vector<string>>> newBuckets(bucket_count);
+        for(auto& bucket: buckets)
+        {
+            for(auto& city : bucket)
+            {
+                long hashValue = hash(city[0]);
+                newBuckets[hashValue].push_back(city);
+            }
+        }
+        buckets = newBuckets;
+    }
 
-   void insertHelper(vector<string>& cityAttributes, vector<vector<vector<string>>> hashMap)
-   {
-       if(elements > maxLoadFactor*(double)bucket_count)
-       {
-           rehash();
-       }
-       int hashValue = hash(cityAttributes[0]);
+    vector<string> find(string cityName)
+    {
+        long hashValue = hash(cityName);
+        for(auto& city : buckets[hashValue])
+        {
+            if(city[0] == cityName)
+            {
+                return city;
+            }
+        }
+        cout << "Could not find city!" << endl;
+        return {};
+    }
 
-
-       hashMap[hashValue].push_back(cityAttributes);
-       elements++;
-   }
-
-
-   void rehash()
-   {
-       bucket_count *= 3;
-       vector<vector<vector<string>>> newBuckets(bucket_count);
-       for(auto& bucket: buckets)
-       {
-           for(auto& city : bucket)
-           {
-               long hashValue = hash(city[0]);
-               newBuckets[hashValue].push_back(city);
-           }
-       }
-       buckets = newBuckets;
-   }
-
-
-   vector<string> find(string cityName)
-   {
-       long hashValue = hash(cityName);
-       for(auto& city : buckets[hashValue])
-       {
-           if(city[0] == cityName)
-           {
-               return city;
-           }
-       }
-       cout << "Could not find city!" << endl;
-       return {};
-   }
-
+    void printBuckets()
+    {
+        for (int i = 0; i < bucket_count; ++i)
+        {
+            cout << "Bucket " << i << ":" << endl;
+            for (auto& bucket : buckets[i])
+            {
+                cout << "  ";
+                for (auto& cityAttributes : bucket)
+                {
+                    for (auto& attribute : cityAttributes)
+                    {
+                        cout << attribute << " ";
+                    }
+                    cout << "| ";
+                }
+                cout << endl;
+            }
+        }
+    }
 
 };
-
 
