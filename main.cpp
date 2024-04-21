@@ -13,8 +13,6 @@ using namespace std;
 
 
 
-
-
 template<typename HashMapType>
 vector<string> citySearcher(string cityName, HashMapType& myMap, priority_queue<pair<int, string>>& maxPop, priority_queue<pair<int, string>>& maxDen, priority_queue<pair<int, string>>& maxSize, priority_queue<pair<int, string>>& maxAge){
    //RETRIEVAL
@@ -171,8 +169,6 @@ int main() {
    cin >> cityName;
    citySearcher(cityName, LinearMap, maxPop, maxDen, maxSize, maxAge);
    menuBasic(LinearMap, maxPop, maxDen, maxSize, maxAge);
-
-
 
 
    return 0;
