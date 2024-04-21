@@ -148,8 +148,8 @@ void menuBasic(HashMapType& myMap, priority_queue<pair<int, string>> maxPop, pri
 int main() {
    hashMapLinear LinearMap(10);
    parseCSV(LinearMap);
-   hashMapLinear LinearMap(10);
-   parseCSV(LinearMap);
+//   hashMapLinear LinearMap(10);
+//   parseCSV(LinearMap);
 
 
    priority_queue<pair<int, string>> maxPop;
