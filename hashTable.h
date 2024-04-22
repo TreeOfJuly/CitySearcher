@@ -142,7 +142,8 @@ private:
     double maxLoadFactor;
 
 public:
-    
+
+    //Initializes the hash table and therefore creates the number of startings buckets
     hashMapChaining(int numOfBuckets)
     {
         buckets.resize(numOfBuckets);
@@ -151,10 +152,12 @@ public:
         maxLoadFactor = 0.75;
     };
 
+    //Return the hash value of the city name
     long hash(string cityName)
     {
         long hashValue = 0;
         int i = 0;
+        //this is the process of where the hash value is created by using the letters as a way to calculate
         for(auto& value : cityName)
         {
             if(value == ' ')
@@ -172,28 +175,35 @@ public:
 
     void insert(vector<string>& attributes)
     {
+        //A cleaner more sylstic approach
         insertHelper(attributes, buckets);
     };
 
     void insertHelper(vector<string>& cityAttributes, vector<vector<vector<string>>>& hashMap)
     {
+        //If the cityAttributes is empty it does nothing which is to prevent empty buckets
         if(cityAttributes.empty())
         {
             return;
         }
+        //If load factor is exceeded it will call the rehash function
         if(elements > maxLoadFactor*(double)bucket_count)
         {
             rehash();
         }
+        //Grabs the hash value using city name
         int hashValue = hash(cityAttributes[0]);
-
+        //Simple matter of just pushing the value into vector
         hashMap[hashValue].push_back(cityAttributes);
         elements++;
         //printBuckets();
     }
 
+    //When the load factor is exceeded it then creates more buckets and grabs the hash
+    //values of all the elements to reassign them
     void rehash()
     {
+        //When rehashing we multiply coexisiting buckets by 3 to increase space
         bucket_count *= 3;
         vector<vector<vector<string>>> newBuckets(bucket_count);
         for(auto& bucket: buckets)
@@ -204,6 +214,7 @@ public:
                 newBuckets[hashValue].push_back(city);
             }
         }
+        //reassigns the old vector to the new vector
         buckets = newBuckets;
     }
 
