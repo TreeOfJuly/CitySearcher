@@ -61,7 +61,6 @@ int gui() {
             if(event.type == sf::Event::Closed)
             {
                 introWindow.close();
-                return 0;
             }
             if(event.type == sf::Event::TextEntered)
             {
@@ -159,7 +158,6 @@ int gui() {
             if(event.type == sf::Event::Closed)
             {
                 mainWindow.close();
-                return 0;
             }
             else if(event.type == sf::Event::TextEntered) {
                 if (event.text.unicode == '\b') {
@@ -202,7 +200,6 @@ int gui() {
                 if(exitButton.OnClickLeft(mousePos))
                 {
                     mainWindow.close();
-                    return 0;
                 }
                 else if(rankButton.getState())
                 {
