@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 #include <bits/stdc++.h>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 #pragma once
 
 //priority_queue<pair<int, string>>& maxPop, priority_queue<pair<int, string>>& maxDen, priority_queue<pair<int, string>>& maxSize, priority_queue<pair<int, string>>& maxAge
@@ -125,3 +128,140 @@ void Rank(string menu_option, HashMapType& myMap, priority_queue<pair<int, strin
         cout << "Invalid selection :(" << endl << endl;
     }
 };
+
+void setText(sf::Text &text, float x, float y)
+{
+    sf::FloatRect textRect = text.getGlobalBounds();
+    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top + textRect.height/2.0f);
+    text.setPosition(sf::Vector2f(x, y));
+}
+
+class Button
+{
+    enum State {UNCLICKED, CLICKED};
+private:
+    sf::RectangleShape button;
+    sf::Text text;
+    string buttonText;
+    State currentState;
+public:
+    Button(const sf::Vector2f& buttonPosition, const sf::Vector2f& buttonSize, const sf::Color& buttonFill,
+           const std::string& textString, const sf::Font& textFont, const sf::Color& textFill,
+           unsigned int textSize, const sf::Vector2f& textPosition) : currentState(UNCLICKED)
+    {
+        button.setSize(buttonSize);
+        button.setFillColor(buttonFill);
+        button.setOutlineThickness(2.0f);
+        button.setOutlineColor(sf::Color::White);
+        button.setPosition(buttonPosition);
+
+        text.setString(textString);
+        text.setFont(textFont);
+        text.setCharacterSize(textSize);
+        text.setFillColor(textFill);
+        text.setPosition(textPosition);
+    }
+
+    void draw(sf::RenderWindow& window)
+    {
+        window.draw(button);
+        window.draw(text);
+    }
+
+    bool OnClickLeft(const sf::Vector2i& mousePosition)
+    {
+        if (button.getGlobalBounds().contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
+        {
+            if (currentState == UNCLICKED)
+                currentState = CLICKED;
+            else
+                currentState = UNCLICKED;
+        }
+    }
+
+    bool getState()
+    {
+        if(currentState == CLICKED)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+};
+
+vector<pair<string,string>> rankPopulation(priority_queue<pair<int, string>> maxPop)
+{
+    vector<pair<string,string>> populationRanking;
+    while(!maxPop.empty())
+    {
+        pair<int, std::string> top = maxPop.top();
+        populationRanking.push_back(make_pair(top.second, std::to_string(top.first)));
+        maxPop.pop();
+    }
+    return populationRanking;
+}
+
+vector<pair<string,string>> rankDensity(priority_queue<pair<int, string>> maxDen)
+{
+    vector<pair<string,string>> densityRanking;
+    while(!maxDen.empty())
+    {
+        pair<int, std::string> top = maxDen.top();
+        densityRanking.push_back(make_pair(top.second, std::to_string(top.first)));
+        maxDen.pop();
+    }
+    return densityRanking;
+}
+
+vector<pair<string,string>> rankAge(priority_queue<pair<int, string>> maxAge)
+{
+    vector<pair<string,string>> ageRanking;
+    while(!maxAge.empty())
+    {
+        pair<int, std::string> top = maxAge.top();
+        ageRanking.push_back(make_pair(top.second, std::to_string(top.first)));
+        maxAge.pop();
+    }
+    return ageRanking;
+}
+
+vector<pair<string,string>> rankHS(priority_queue<pair<int, string>> maxSize)
+{
+    vector<pair<string,string>> hsRanking;
+    while(!maxSize.empty())
+    {
+        pair<int, std::string> top = maxSize.top();
+        hsRanking.push_back(make_pair(top.second, std::to_string(top.first)));
+        maxSize.pop();
+    }
+    return hsRanking;
+}
+
+template<typename HashMapType>
+vector<string> search(HashMapType& myMap, string cityName, priority_queue<pair<int, string>>& maxPop, priority_queue<pair<int, string>>& maxDen, priority_queue<pair<int, string>>& maxSize, priority_queue<pair<int, string>>& maxAge)
+{
+    vector<string> cityData;
+    cityData = myMap.find(cityName);
+    if (cityData.empty()){
+        return {};
+    }
+
+    pair<int, string> dataPairs;
+    dataPairs.first = stoi(cityData[2]);
+    dataPairs.second = cityName;
+    maxPop.push(dataPairs);
+
+    dataPairs.first = stoi(cityData[3]);
+    maxDen.push(dataPairs);
+
+    dataPairs.first = stoi(cityData[4]);
+    maxSize.push(dataPairs);
+
+    dataPairs.first = stoi(cityData[5]);
+    maxAge.push(dataPairs);
+
+    return cityData;
+}
