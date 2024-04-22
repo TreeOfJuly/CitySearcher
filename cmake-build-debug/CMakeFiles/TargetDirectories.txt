@@ -1,3 +1,0 @@
-C:/Users/Carmen Cruz Arana/CLionProjects/CitySearcher/cmake-build-debug/CMakeFiles/CitySearcher.dir
-C:/Users/Carmen Cruz Arana/CLionProjects/CitySearcher/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Carmen Cruz Arana/CLionProjects/CitySearcher/cmake-build-debug/CMakeFiles/rebuild_cache.dir
