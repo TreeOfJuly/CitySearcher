@@ -6,7 +6,7 @@
 #pragma once
 using namespace std;
 
-
+//map that is used for hashing function of strings
 static map<char,int> alphabet = {{'a',1},{'b',2},{'c',3},{'d', 4},{'e',5},{'f', 6},{'g',7},
                          {'h',8},{'i', 9},{'j',10},{'k',11},{'l',12},{'m',13},{'n',14},
                          {'o',15},{'p',16},{'q',17},{'r',18},{'s',19},{'t',20},{'u',21},
@@ -17,15 +17,17 @@ static map<char,int> alphabet = {{'a',1},{'b',2},{'c',3},{'d', 4},{'e',5},{'f', 
 class hashMapLinear{
 private:
 
-
+   //this is the container for the hash table
    vector<vector<string>> map = {};
+   //keeps track of the max capacity of the hash table
    int capacity;
+    //keeps track of current # of elements of the hash table
    int size;
+   //max fraction of number of elements based on the capacity
    double maxLoadFactor;
 
 
 public:
-
 
    hashMapLinear(int cap){
        //creates empty 2d array with cap number of rows
@@ -37,7 +39,7 @@ public:
        maxLoadFactor = 0.75;
    }
 
-
+   // hash function that hashes the city's name
    long hashFunc(string cityName){
        long value = 0;
        int i = 0;
@@ -48,32 +50,32 @@ public:
                continue;
            }
            s = tolower(s);
-           //gets value from alphabet map corresponding to letter character s
+           //gets value from alphabet map corresponding to letter character s and multiples that by 30^i
            value += alphabet[(char) s] * (30^i);
            i++;
        }
-       if(cityName == "New York")
-           cout << value % capacity << endl;
+
        return value % capacity;
    }
+
    void insertHelper(vector<string> cityAttributes, vector<vector<string>>& Map){
-       //checks if the current capacity exceeds max load factor
-       //cout << "hi" << endl;
        if(cityAttributes.empty())
            return;
+       //checks if the current capacity exceeds max load factor
        if(size > maxLoadFactor*(double)capacity){
+           //rehashes if resizing is needed
            reHash();
        }
+
        //hashes based on city name which is in cityAttributes[0]
-
-
        int index = hashFunc(cityAttributes[0]);
+       //places city at that index in the hash table if it is empty
        if(Map[index].empty()){
            Map[index] = cityAttributes;
            size++;
        }
        else{
-           //increases array until empty spot is found
+           //increases index by one until empty spot is found
            while(!Map[index].empty()){
                index += 1;
                if(index >= capacity){
@@ -87,43 +89,44 @@ public:
        }
    }
 
-
    void insert(vector<string>& attributes){
        insertHelper(attributes,map);
    }
 
-
+   //creates new hash table of capacity * 3
    void reHash(){
        vector<vector<string>> newMap;
        for(int i = 0; i < capacity * 3; i++){
            newMap.push_back({});
        }
        capacity *= 3;
+       //takes all cities in old hash table and reassigns indices for new hash table
        for(const auto& vec : map){
            insertHelper(vec,newMap);
        }
        map = newMap;
    }
 
-
+   //finds city in hash table
    vector<string> find(const string& city){
+       //calculates index based on hashing function
        int index = hashFunc(city);
-
-
+       //searches linearly for city if it is not found at original index
        while(!map[index].empty() and map[index][0] != city){
            index++;
            if(index >= capacity){
                index = 0;
            }
        }
+       //if an empty index is found then city cannot exist in hash table
        if(map[index].empty()){
            cout << "Could not find city" << endl;
            return {};
        }
+       //retrieves information for city once it is found
        return map[index];
-
-
    }
+
 };
 
 

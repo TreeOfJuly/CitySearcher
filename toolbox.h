@@ -15,24 +15,29 @@ string menu()
     cout << "2 - Rank Cities" << endl;
     cout << "3 - End City Searcher!" << endl;
     string option;
-    cin >> option;
+    getline(cin, option, '\n');
     return option;
-};
+}
 
-
+/*compares how quickly a hash table using linear probing and a hash table
+using separate chaining retrieve information*/
 void compareMaps(string cityName, hashMapLinear& linear, hashMapChaining& chaining)
 {
     auto startLinear = clock();
-    linear.find(cityName);
+    vector<string> result1 = linear.find(cityName);
     auto endLinear = clock();
     auto durationLinear = 1000.0 * (endLinear - startLinear) / CLOCKS_PER_SEC;
     auto startChaining = chrono::high_resolution_clock::now();
-    chaining.find(cityName);
+    vector<string> result2 = chaining.find(cityName);
     auto endChaining = chrono::high_resolution_clock::now();
     chrono::duration<double, nano> durationChaining = endChaining - startChaining;
     cout << "Time for Linear Hash Table to find city is: " << durationLinear << endl;
     cout << "Time for Seperate Chaining Hash Table to find city is: " << durationChaining.count() << endl;
-};
+    for(int i = 0 ; i < 6; i++){
+        cout << result1[i] << " " << result2[i] << endl;
+    }
+}
+
 
 template<typename HashMapType>
 void searchCity(HashMapType& myMap, string cityName, priority_queue<pair<int, string>>& maxPop, priority_queue<pair<int, string>>& maxDen, priority_queue<pair<int, string>>& maxSize, priority_queue<pair<int, string>>& maxAge)
@@ -68,9 +73,11 @@ void searchCity(HashMapType& myMap, string cityName, priority_queue<pair<int, st
     //return cityData;
 };
 
+//ranks cities based on the category that the user chooses
 template<typename HashMapType>
 void Rank(string menu_option, HashMapType& myMap, priority_queue<pair<int, string>> maxPop, priority_queue<pair<int, string>> maxDen, priority_queue<pair<int, string>> maxSize, priority_queue<pair<int, string>> maxAge)
 {
+    cout << endl;
     int counter = 1;
     if (menu_option == "1"){
         cout << "Population Ranking (greatest to least)" << endl;
