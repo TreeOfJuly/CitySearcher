@@ -221,10 +221,13 @@ public:
         return {};
     }
 
+    //Prints out the buckets by using a for each loop that iterates through each bucket
+    //And the vector within it
     void printBuckets()
     {
         for (int i = 0; i < bucket_count; ++i)
         {
+            //The i is used to keep track of the number of buckets to show how many are left empty due to separate chaining
             cout << "Bucket " << i << ":" << endl;
             for (auto& bucket : buckets[i])
             {
@@ -235,6 +238,7 @@ public:
                     {
                         cout << attribute << " ";
                     }
+                    //Used to separate
                     cout << "| ";
                 }
                 cout << endl;
