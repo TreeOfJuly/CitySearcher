@@ -24,22 +24,22 @@ string menu()
 
 /*compares how quickly a hash table using linear probing and a hash table
 using separate chaining retrieve information*/
-void compareMaps(string cityName, hashMapLinear& linear, hashMapChaining& chaining)
-{
-    auto startLinear = clock();
-    vector<string> result1 = linear.find(cityName);
-    auto endLinear = clock();
-    auto durationLinear = 1000.0 * (endLinear - startLinear) / CLOCKS_PER_SEC;
-    auto startChaining = chrono::high_resolution_clock::now();
-    vector<string> result2 = chaining.find(cityName);
-    auto endChaining = chrono::high_resolution_clock::now();
-    chrono::duration<double, nano> durationChaining = endChaining - startChaining;
-    cout << "Time for Linear Hash Table to find city is: " << durationLinear << endl;
-    cout << "Time for Seperate Chaining Hash Table to find city is: " << durationChaining.count() << endl;
-    for(int i = 0 ; i < 6; i++){
-        cout << result1[i] << " " << result2[i] << endl;
-    }
-}
+//void compareMaps(string cityName, hashMapLinear& linear, hashMapChaining& chaining)
+//{
+//   auto startLinear = clock();
+//    vector<string> result1 = linear.find(cityName);
+//    auto endLinear = clock();
+//    auto durationLinear = 1000.0 * (endLinear - startLinear) / CLOCKS_PER_SEC;
+//    auto startChaining = chrono::high_resolution_clock::now();
+//    vector<string> result2 = chaining.find(cityName);
+//    auto endChaining = chrono::high_resolution_clock::now();
+//    chrono::duration<double, nano> durationChaining = endChaining - startChaining;
+//    cout << "Time for Linear Hash Table to find city is: " << durationLinear << endl;
+//    cout << "Time for Seperate Chaining Hash Table to find city is: " << durationChaining.count() << endl;
+//   for(int i = 0 ; i < 6; i++){
+//        cout << result1[i] << " " << result2[i] << endl;
+//    }
+//}
 
 
 template<typename HashMapType>
@@ -228,6 +228,7 @@ vector<pair<string,string>> rankAge(priority_queue<pair<int, string>> maxAge)
     return ageRanking;
 }
 
+//This returns a vector of pairs of the college and the average home population size
 vector<pair<string,string>> rankHS(priority_queue<pair<int, string>> maxSize)
 {
     vector<pair<string,string>> hsRanking;
@@ -240,6 +241,7 @@ vector<pair<string,string>> rankHS(priority_queue<pair<int, string>> maxSize)
     return hsRanking;
 }
 
+//Similar to the searchCity function above but except this returns a vector of city values
 template<typename HashMapType>
 vector<string> search(HashMapType& myMap, string cityName, priority_queue<pair<int, string>>& maxPop, priority_queue<pair<int, string>>& maxDen, priority_queue<pair<int, string>>& maxSize, priority_queue<pair<int, string>>& maxAge)
 {
