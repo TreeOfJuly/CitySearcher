@@ -7,6 +7,7 @@
 #include "toolbox.h"
 #include <ctime>
 #include <bits/stdc++.h>
+#include "gui.h"
 
 using namespace std;
 
@@ -23,6 +24,8 @@ int main() {
 
     hashMapChaining chainMap(10);
     parseCSV(chainMap);
+
+    compareMaps(linearMap,chainMap);
 
     priority_queue<pair<int, string>> maxPop;
     priority_queue<pair<int, string>> maxDen;
