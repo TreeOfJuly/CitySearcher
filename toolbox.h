@@ -24,22 +24,35 @@ string menu()
 
 /*compares how quickly a hash table using linear probing and a hash table
 using separate chaining retrieve information*/
-//void compareMaps(string cityName, hashMapLinear& linear, hashMapChaining& chaining)
-//{
-//   auto startLinear = clock();
-//    vector<string> result1 = linear.find(cityName);
-//    auto endLinear = clock();
-//    auto durationLinear = 1000.0 * (endLinear - startLinear) / CLOCKS_PER_SEC;
-//    auto startChaining = chrono::high_resolution_clock::now();
-//    vector<string> result2 = chaining.find(cityName);
-//    auto endChaining = chrono::high_resolution_clock::now();
-//    chrono::duration<double, nano> durationChaining = endChaining - startChaining;
-//    cout << "Time for Linear Hash Table to find city is: " << durationLinear << endl;
-//    cout << "Time for Seperate Chaining Hash Table to find city is: " << durationChaining.count() << endl;
-//   for(int i = 0 ; i < 6; i++){
-//        cout << result1[i] << " " << result2[i] << endl;
-//    }
-//}
+void compareMaps(hashMapLinear& linear, hashMapChaining& chaining)
+{
+    vector<string> cityNames;
+    fstream cityInfo;
+    string line, attribute;
+    cityInfo.open("uscities.csv",ios::in);
+    while(!cityInfo.eof()){
+        getline(cityInfo,line);
+        stringstream s(line);
+        getline(s,attribute,',');
+        cityNames.push_back(attribute);
+    }
+    auto startChaining = clock();
+    for(auto city : cityNames){
+        vector<string> result2 = chaining.find(city);
+    }
+    auto endChaining = clock();
+    auto durationChaining = (endChaining - startChaining) / CLOCKS_PER_SEC;
+    cout << "Time for Seperate Chaining Hash Table to find city is: " << durationChaining << endl;
+
+    auto startLinear = clock();
+    for(auto& city : cityNames){
+        vector<string> result1 = linear.find(city);
+    }
+    auto endLinear = clock();
+    auto durationLinear = (endLinear - startLinear) / CLOCKS_PER_SEC;
+    cout << "Time for Linear Hash Table to find city is: " << durationLinear << endl;
+
+}
 
 //searches for a city in a hash table using its name and pushes its information into priority queues for future ranking
 template<typename HashMapType>
