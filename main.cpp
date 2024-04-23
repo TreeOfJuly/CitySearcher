@@ -16,7 +16,8 @@ using namespace std;
 
 int main() {
 
-
+    gui();
+    
     hashMapLinear linearMap(10);
     parseCSV(linearMap);
 
