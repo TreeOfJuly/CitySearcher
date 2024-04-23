@@ -7,6 +7,7 @@
 #include <fstream>
 using namespace std;
 
+//parses through file of city data
 template<typename HashMapType>
 void parseCSV(HashMapType& map){
     fstream cityInfo;
