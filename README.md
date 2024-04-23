@@ -18,4 +18,6 @@ NOTES FOR RUNNING PROGRAM:
   -For both interfaces it is critical that the city is spelled correctly and the first letter of each word is capitalized. Another thing to note is that the punctuation associated with cities must be included.
   -To exit out of the CLI just exit out of the Command Prompt, Git Bash, Powershell, or whatever terminal you are using. There will also be a command to exit out of CLI.
   -There are several other things to note, one being that in the beginning of the CLI runtime, there will be a message that will show the results of the time it took to find all the cities in the csv files
-   and you will notice that there is 0 seconds for the separate chaining portion and an average of 9 seconds for the linear search. The 0 seconds is not 0 seconds but actually an average of 80 miliseconds which is rounded down.
+   and you will notice that there is 0 seconds for the separate chaining portion and an average of 9 seconds for the linear search. The 0 seconds is not 0 seconds but actually an average of 80 miliseconds which is       rounded down.
+
+We were told by a TA that using separate chaining and linear probing met the requirements:
