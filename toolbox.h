@@ -41,7 +41,7 @@ using separate chaining retrieve information*/
 //    }
 //}
 
-
+//searches for a city in a hash table using its name and pushes its information into priority queues for future ranking
 template<typename HashMapType>
 void searchCity(HashMapType& myMap, string cityName, priority_queue<pair<int, string>>& maxPop, priority_queue<pair<int, string>>& maxDen, priority_queue<pair<int, string>>& maxSize, priority_queue<pair<int, string>>& maxAge)
 {
@@ -60,23 +60,26 @@ void searchCity(HashMapType& myMap, string cityName, priority_queue<pair<int, st
 
 
     pair<int, string> dataPairs;
+    //pushes city's population and name into max population priority queue
     dataPairs.first = stoi(cityData[2]);
     dataPairs.second = cityName;
     maxPop.push(dataPairs);
 
+    //pushes population density of city and city's name into max density priority queue
     dataPairs.first = stoi(cityData[3]);
     maxDen.push(dataPairs);
 
+    //pushes average household size of city and city's name into max household size priority queue
     dataPairs.first = stoi(cityData[4]);
     maxSize.push(dataPairs);
-
+    
+    //pushes median age of city and city's name into max age priority queue
     dataPairs.first = stoi(cityData[5]);
     maxAge.push(dataPairs);
 
-    //return cityData;
 };
 
-//ranks cities based on the category that the user chooses
+//ranks cities based on the category that the user chooses using priority queues
 template<typename HashMapType>
 void Rank(string menu_option, HashMapType& myMap, priority_queue<pair<int, string>> maxPop, priority_queue<pair<int, string>> maxDen, priority_queue<pair<int, string>> maxSize, priority_queue<pair<int, string>> maxAge)
 {
@@ -94,6 +97,7 @@ void Rank(string menu_option, HashMapType& myMap, priority_queue<pair<int, strin
         }
         cout << endl;
     }
+    //ranks cities based on their population density
     else if (menu_option == "2"){
         cout << "Population Density Ranking (greatest to least)" << endl;
         while (!maxDen.empty()){
@@ -104,6 +108,7 @@ void Rank(string menu_option, HashMapType& myMap, priority_queue<pair<int, strin
         }
         cout << endl;
     }
+    //ranks cities based on their avergae household size
     else if (menu_option == "3"){
         cout <<  "Average Household Size Ranking (greatest to least)" << endl;
         while (!maxSize.empty()){
@@ -114,6 +119,7 @@ void Rank(string menu_option, HashMapType& myMap, priority_queue<pair<int, strin
         }
         cout << endl;
     }
+    //ranks cities based on their median age
     else if (menu_option == "4"){
         cout << "Median Age Ranking (greatest to least)" << endl;
         while (!maxAge.empty()){
@@ -129,6 +135,7 @@ void Rank(string menu_option, HashMapType& myMap, priority_queue<pair<int, strin
     }
 };
 
+//
 void setText(sf::Text &text, float x, float y)
 {
     sf::FloatRect textRect = text.getGlobalBounds();
@@ -162,12 +169,14 @@ public:
         text.setPosition(textPosition);
     }
 
+    //draws button and text inside button
     void draw(sf::RenderWindow& window)
     {
         window.draw(button);
         window.draw(text);
     }
 
+    //Determines if mouse is clicking on area
     bool OnClickLeft(const sf::Vector2i& mousePosition)
     {
         if (button.getGlobalBounds().contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
@@ -179,6 +188,7 @@ public:
         }
     }
 
+    //Returns when button is clicked or not
     bool getState()
     {
         if(currentState == CLICKED)
@@ -192,6 +202,7 @@ public:
     }
 };
 
+//returns vector of pairs from max population priority queue
 vector<pair<string,string>> rankPopulation(priority_queue<pair<int, string>> maxPop)
 {
     vector<pair<string,string>> populationRanking;
@@ -203,7 +214,8 @@ vector<pair<string,string>> rankPopulation(priority_queue<pair<int, string>> max
     }
     return populationRanking;
 }
-
+//Returns a vector<pair<string,string>> where it uses a priority queue that organizes the density accordingly
+//And it also includes their matching country
 vector<pair<string,string>> rankDensity(priority_queue<pair<int, string>> maxDen)
 {
     vector<pair<string,string>> densityRanking;
@@ -216,6 +228,8 @@ vector<pair<string,string>> rankDensity(priority_queue<pair<int, string>> maxDen
     return densityRanking;
 }
 
+//This uses a priority queue to organize the countries with highest age and
+//Returns a vector of pairs to be used in the UI
 vector<pair<string,string>> rankAge(priority_queue<pair<int, string>> maxAge)
 {
     vector<pair<string,string>> ageRanking;
@@ -229,6 +243,7 @@ vector<pair<string,string>> rankAge(priority_queue<pair<int, string>> maxAge)
 }
 
 //This returns a vector of pairs of the college and the average home population size
+//This uses priority queue to organize the countries numbers
 vector<pair<string,string>> rankHS(priority_queue<pair<int, string>> maxSize)
 {
     vector<pair<string,string>> hsRanking;
