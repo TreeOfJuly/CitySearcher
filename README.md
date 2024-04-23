@@ -21,3 +21,4 @@ NOTES FOR RUNNING PROGRAM:
    and you will notice that there is 0 seconds for the separate chaining portion and an average of 9 seconds for the linear search. The 0 seconds is not 0 seconds but actually an average of 80 miliseconds which is       rounded down.
 
 We were told by a TA that using separate chaining and linear probing met the requirements:
+![Project3Image](https://github.com/TreeOfJuly/CitySearcher/assets/166689388/01a64fff-3b1f-4695-a70c-56d91ba0096b)
