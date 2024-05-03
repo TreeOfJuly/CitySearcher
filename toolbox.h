@@ -199,6 +199,7 @@ public:
             else
                 currentState = UNCLICKED;
         }
+        return false;
     }
 
     //Returns when button is clicked or not
